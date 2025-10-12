@@ -88,14 +88,12 @@ Based on the sample data:
 
 ## Implementation
 
-### Files Structure
-hotel-management-database/
-│
-├── database_creation.sql         # Schema and constraints
-├── insert_data.sql               # Sample data population  
-├── sample_queries.sql            # Business queries and reports
-└── README.md                     # Project documentation
-
+### Project Structure
+- `database_creation.sql` - Schema and constraints
+- `insert_data.sql` - Sample data population  
+- `sample_queries.sql` - Business queries and reports
+- `README.md` - Project documentation
+  
 ## Quick Start
 
 1. Execute `database_creation.sql` to create schema
