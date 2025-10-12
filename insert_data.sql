@@ -399,7 +399,6 @@ INSERT INTO customer (customer_id, username, first_name, last_name, gender, birt
 (80, 'Yuz.Che', 'Yuze', 'Chen', 'M', '1989-09-23', 'Chinese');
 
 -- Insert Customer Contacts
--- Insert Customer Contacts
 INSERT INTO customer_contact (customer_id, phone_number, email, address) VALUES
 (1, '900169996', 'Ae-cha.Yun@gmail.com', '1105 Aztec Rd, North Pole, Alaska 88705'),
 (2, '907630433', 'Alicja.Nowak@gmail.com', '2566 Hc 1, Glennallen, Alaska 88588'),
