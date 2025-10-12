@@ -1,0 +1,761 @@
+-- =====================================================
+-- Hotel Management Database System
+-- Data Insertion Script
+-- Author: Qinyi Qiu
+-- Date: October 2023 (updated 2025 revision)
+-- =====================================================
+
+USE hotel_management_database;
+GO
+
+-- =====================================================
+-- 1. EMPLOYEE MODULE DATA
+-- =====================================================
+
+PRINT 'Inserting Employee Module Data...';
+
+-- Insert Roles
+INSERT INTO role (role_id, role_name) VALUES
+('R1', 'Accounts Manager'),
+('R2', 'Event Planning Manager'),
+('R3', 'Food and Beverage Service Manager'),
+('R4', 'Food Preparation Manager'),
+('R5', 'Guest Services Manager'),
+('R6', 'Housekeeping Manager'),
+('R7', 'Human Resources Manager'),
+('R8', 'Information Technology Manager'),
+('R9', 'Maintenance Manager'),
+('R10', 'Purchasing Manager'),
+('R11', 'Sales and Marketing Manager'),
+('R12', 'Security Manager'),
+('R13', 'Housekeeper'),
+('R14', 'Room Attendant'),
+('R15', 'Front Desk Agent'),
+('R16', 'Receptionist'),
+('R17', 'Event Planner'),
+('R18', 'Marketing Assistant'),
+('R19', 'Executive Chef'),
+('R20', 'Line Cook'),
+('R21', 'Room Service Attendant'),
+('R22', 'Barista'),
+('R23', 'Server'),
+('R24', 'Buyer'),
+('R25', 'Inventory Operator'),
+('R26', 'Accountant'),
+('R27', 'Auditor'),
+('R28', 'Financial Analyst'),
+('R29', 'Security Officer'),
+('R30', 'IT technician'),
+('R31', 'Hotel Maintenance Technician'),
+('R32', 'HR Generalist');
+GO
+
+-- Insert Departments (without managers initially)
+INSERT INTO department (department_id, department_name, manager_id) VALUES
+(1, 'Accounts Department', NULL),
+(2, 'Event Planning Department', NULL),
+(3, 'Food and Beverage Service Department', NULL),
+(4, 'Food Preparation Department', NULL),
+(5, 'Guest Services Department', NULL),
+(6, 'Housekeeping Department', NULL),
+(7, 'Human Resources Department', NULL),
+(8, 'Information Technology Department', NULL),
+(9, 'Maintenance Department', NULL),
+(10, 'Purchasing Department', NULL),
+(11, 'Sales and Marketing Department', NULL),
+(12, 'Security Department', NULL);
+GO
+
+-- Insert Employees
+INSERT INTO employee (employee_id, first_name, last_name, gender, nationality, birth_date, hire_date, hourly_salary_usd, department_id) VALUES
+(1, 'Aaron', 'Smith', 'M', 'American', '1980-02-12', '2013-01-02', 45.00, 1),
+(2, 'Aino', 'Mäkinen', 'F', 'Finnish', '1982-03-07', '2013-01-02', 45.00, 2),
+(3, 'Aiden', 'Nicholson', 'M', 'American', '1982-08-27', '2013-01-02', 45.00, 3),
+(4, 'Chloe', 'Hunter', 'F', 'Canadian', '1984-06-19', '2013-01-02', 45.00, 4),
+(5, 'Yuan', 'Zhang', 'M', 'Chinese', '1984-07-22', '2013-01-02', 45.00, 5),
+(6, 'Olivia', 'Anderson', 'F', 'New Zealander', '1985-02-12', '2013-01-02', 45.00, 6),
+(7, 'Kanya', 'Ayutthaya', 'F', 'Thai', '1985-06-18', '2013-01-02', 45.00, 7),
+(8, 'Aarav', 'Shiva', 'M', 'Indian', '1985-06-18', '2013-01-02', 45.00, 8),
+(9, 'Ava', 'Riley', 'F', 'British', '1985-06-25', '2013-01-02', 45.00, 9),
+(10, 'Léa', 'Beaulieu', 'F', 'French', '1985-06-25', '2013-01-02', 45.00, 10),
+(11, 'Heyue', 'Wang', 'F', 'Chinese', '1985-07-21', '2013-01-02', 45.00, 11),
+(12, 'Francesco', 'Giordano', 'M', 'Italian', '1986-08-20', '2013-01-02', 45.00, 12),
+(13, 'Annie', 'Howard', 'F', 'British', '1987-12-03', '2013-01-02', 35.00, 6),
+(14, 'Bailey', 'Rivera', 'M', 'British', '1987-12-03', '2020-01-05', 35.00, 6),
+(15, 'Benjamin', 'Marsh', 'M', 'Canadian', '1988-03-16', '2020-01-05', 35.00, 6),
+(16, 'Clay', 'Garcia', 'M', 'Canadian', '1988-03-16', '2020-01-05', 35.00, 6),
+(17, 'Eleanor', 'Lewis', 'F', 'American', '1988-03-16', '2020-01-05', 35.00, 6),
+(18, 'Emily', 'Brown', 'F', 'Canadian', '1988-03-16', '2020-01-05', 18.00, 3),
+(19, 'Evan', 'Harris', 'M', 'Canadian', '1988-05-17', '2020-01-05', 18.00, 3),
+(20, 'Harper', 'King', 'F', 'British', '1988-05-17', '2020-01-05', 18.00, 3),
+(21, 'Celine', 'Nienow', 'F', 'French', '1988-05-17', '2020-01-05', 35.00, 4),
+(22, 'Iris', 'Clark', 'F', 'Australian', '1988-05-26', '2020-01-05', 25.00, 1),
+(23, 'Jack', 'Phillips', 'M', 'British', '1989-01-20', '2020-01-05', 25.00, 1),
+(24, 'James', 'Smith', 'M', 'Australian', '1989-01-20', '2021-01-05', 25.00, 1),
+(25, 'Jennifer', 'Hart', 'F', 'American', '1989-01-20', '2021-01-05', 25.00, 1),
+(26, 'Mia', 'Shaw', 'F', 'British', '1989-01-20', '2021-01-05', 30.00, 9),
+(27, 'Millie', 'Ortiz', 'F', 'Australian', '1989-04-23', '2021-01-05', 30.00, 9),
+(28, 'Milo', 'Hill', 'M', 'Australian', '1989-04-23', '2021-01-05', 30.00, 9),
+(29, 'Morgan', 'Martin', 'M', 'American', '1989-04-23', '2021-01-05', 30.00, 9),
+(30, 'Nellie', 'Reyes', 'F', 'Australian', '1989-04-23', '2021-01-05', 30.00, 9),
+(31, 'Noah', 'Owen', 'M', 'British', '1989-08-18', '2021-01-05', 25.00, 2),
+(32, 'Oakley', 'Martin', 'F', 'American', '1990-01-02', '2021-01-05', 25.00, 2),
+(33, 'Rose', 'Phillips', 'F', 'American', '1990-01-02', '2021-01-05', 25.00, 2),
+(34, 'Sawyer', 'Garcia', 'M', 'New Zealander', '1990-01-02', '2021-01-05', 20.00, 10),
+(35, 'Sophia', 'Wood', 'F', 'New Zealander', '1990-01-06', '2021-01-05', 20.00, 10),
+(36, 'William', 'Hamilton', 'M', 'New Zealander', '1990-04-15', '2022-01-08', 20.00, 10),
+(37, 'Terrell', 'Cole', 'M', 'American', '1990-04-20', '2022-01-08', 30.00, 8),
+(38, 'Aidan', 'Waelchi', 'M', 'American', '1990-04-21', '2022-01-08', 30.00, 8),
+(39, 'Blake', 'Kuhlman', 'M', 'American', '1990-06-04', '2022-01-08', 25.00, 7),
+(40, 'Rafael', 'Amore', 'M', 'Italian', '1990-06-04', '2022-01-08', 25.00, 7),
+(41, 'Luciano', 'Shields', 'M', 'German', '1990-06-29', '2022-01-08', 25.00, 7),
+(42, 'Henry', 'Wallace', 'M', 'Australian', '1990-06-29', '2022-01-08', 25.00, 7),
+(43, 'Zoila', 'King', 'F', 'Australian', '1990-06-30', '2022-01-08', 20.00, 12),
+(44, 'Kenny', 'Grady', 'F', 'Australian', '1990-11-17', '2022-01-08', 20.00, 12),
+(45, 'Jesus', 'Kiehn', 'M', 'American', '1990-11-17', '2022-01-08', 20.00, 12),
+(46, 'Janelle', 'Hickle', 'F', 'German', '1990-11-17', '2022-01-08', 20.00, 12),
+(47, 'Deion', 'Mayert', 'M', 'American', '1990-11-18', '2023-01-06', 20.00, 12),
+(48, 'Susan', 'Conroy', 'F', 'American', '1990-11-18', '2023-01-06', 20.00, 12),
+(49, 'Luciano', 'Barrows', 'M', 'German', '1990-11-18', '2023-01-06', 30.00, 1),
+(50, 'Delilah', 'Pollich', 'F', 'British', '1990-11-18', '2023-01-06', 30.00, 1),
+(51, 'Abigayle', 'Nolan', 'F', 'Canadian', '1991-07-04', '2023-01-06', 30.00, 1),
+(52, 'Delbert', 'Ortiz', 'M', 'American', '1991-11-18', '2023-01-06', 25.00, 1),
+(53, 'Delphia', 'Goodwin', 'F', 'American', '1992-02-25', '2023-01-06', 25.00, 1),
+(54, 'Irwin', 'Hermiston', 'F', 'American', '1992-04-22', '2023-01-06', 25.00, 1),
+(55, 'Mckenzie', 'Schmeler', 'M', 'American', '1992-05-25', '2023-01-06', 25.00, 1),
+(56, 'Wilfredo', 'Kreiger', 'F', 'Polish', '1992-05-25', '2023-01-06', 25.00, 1),
+(57, 'Petra', 'Frami', 'F', 'German', '1992-05-25', '2023-01-06', 25.00, 1),
+(58, 'Nora', 'Upton', 'F', 'American', '1992-05-25', '2023-01-06', 20.00, 10),
+(59, 'Demarco', 'Kon', 'M', 'American', '1992-05-25', '2023-01-06', 20.00, 10),
+(60, 'Mo', 'Chen', 'F', 'Chinese', '1992-05-25', '2023-01-06', 25.00, 11),
+(61, 'Malee', 'Saeueng', 'F', 'Thai', '1993-02-21', '2023-01-06', 25.00, 11),
+(62, 'Kitti', 'Sangthong', 'F', 'Thai', '1993-02-21', '2023-01-06', 25.00, 11),
+(63, 'Priya', 'Acharya', 'F', 'Indian', '1993-02-21', '2023-01-06', 30.00, 8),
+(64, 'Shyla', 'Negi', 'F', 'Indian', '1993-06-04', '2023-01-06', 30.00, 8),
+(65, 'Aashvi', 'Arya', 'F', 'Indian', '1994-08-04', '2023-01-06', 30.00, 8),
+(66, 'Aum', 'Kalita', 'M', 'Indian', '1994-08-04', '2023-01-06', 25.00, 7),
+(67, 'Krish', 'Sharma', 'M', 'Indian', '1994-08-04', '2023-01-06', 25.00, 7),
+(68, 'Parin', 'Sharma', 'M', 'Indian', '1995-04-11', '2023-01-06', 20.00, 10),
+(69, 'Sideyuan', 'Wang', 'F', 'Chinese', '1995-04-25', '2023-01-06', 20.00, 10),
+(70, 'Yujun', 'Liu', 'F', 'Chinese', '1995-04-26', '2023-01-06', 18.00, 3),
+(71, 'Eevi', 'Mäkelä', 'F', 'Finnish', '1995-04-26', '2023-01-06', 18.00, 3),
+(72, 'Marian', 'Welch', 'F', 'American', '1995-04-26', '2023-01-06', 20.00, 4),
+(73, 'Tyreek', 'Bins', 'M', 'American', '1995-04-26', '2023-01-06', 20.00, 4),
+(74, 'Haleigh', 'Reynolds', 'M', 'American', '1995-04-26', '2023-01-06', 20.00, 4),
+(75, 'Desmond', 'Becker', 'M', 'American', '1995-04-26', '2023-01-06', 20.00, 4),
+(76, 'Herminio', 'Emmerich', 'M', 'British', '1995-08-12', '2023-01-06', 20.00, 4),
+(77, 'Jillian', 'Haley', 'M', 'British', '1995-08-12', '2023-01-06', 20.00, 4),
+(78, 'Maci', 'Bauch', 'M', 'British', '1995-08-13', '2023-01-06', 20.00, 4),
+(79, 'Freddy', 'Streich', 'M', 'Canadian', '1995-08-14', '2023-01-06', 20.00, 3),
+(80, 'Sakura', 'Haruto', 'F', 'Japanese', '1995-08-16', '2023-01-06', 20.00, 3),
+(81, 'Chika', 'Hayashi', 'F', 'Japanese', '1995-08-16', '2023-01-06', 20.00, 3),
+(82, 'Hikari', 'Hayashi', 'F', 'Japanese', '1995-08-16', '2023-01-06', 18.00, 3),
+(83, 'Chiyo', 'Saito', 'F', 'Japanese', '1996-05-19', '2023-01-06', 18.00, 3),
+(84, 'Yuki', 'Saito', 'F', 'Japanese', '1996-05-19', '2023-01-06', 18.00, 3),
+(85, 'Liam', 'Volkman', 'M', 'Australian', '1996-05-19', '2023-01-06', 18.00, 3),
+(86, 'Laurine', 'Becker', 'M', 'Australian', '1996-07-28', '2023-01-06', 18.00, 3),
+(87, 'Orlo', 'Kihn', 'M', 'Australian', '1996-07-28', '2023-01-06', 18.00, 3),
+(88, 'Desiree', 'Moore', 'M', 'Australian', '1996-08-16', '2023-01-06', 18.00, 3),
+(89, 'Annette', 'Stoltenberg', 'M', 'American', '1996-08-16', '2023-01-06', 18.00, 5),
+(90, 'Jaquelin', 'DuBuque', 'M', 'American', '1997-03-15', '2023-01-06', 18.00, 5),
+(91, 'Efrain', 'Zieme', 'M', 'American', '1997-05-20', '2023-01-06', 18.00, 5),
+(92, 'Nicolas', 'Boyle', 'M', 'American', '1997-05-20', '2023-01-06', 18.00, 5),
+(93, 'Hollis', 'Lesch', 'M', 'American', '1997-06-04', '2023-01-06', 18.00, 5),
+(94, 'Natasha', 'Bartell', 'M', 'American', '1997-08-06', '2023-01-06', 18.00, 5),
+(95, 'Chuan', 'Wang', 'M', 'Chinese', '1997-08-09', '2023-01-06', 18.00, 5),
+(96, 'Johann', 'Albrecht', 'M', 'German', '1998-02-12', '2023-01-06', 18.00, 5),
+(97, 'Freya', 'Müller', 'F', 'German', '1998-02-19', '2023-01-06', 18.00, 5),
+(98, 'Wendy', 'Wallace', 'F', 'British', '1998-04-11', '2023-01-06', 18.00, 5),
+(99, 'Alison', 'Rutherford', 'F', 'British', '1998-04-11', '2023-01-06', 18.00, 6),
+(100, 'Rachel', 'Smith', 'F', 'British', '1998-06-28', '2023-01-06', 18.00, 6),
+(101, 'Jasmine', 'Bond', 'F', 'American', '1999-02-24', '2023-01-06', 18.00, 6),
+(102, 'Carolyn', 'Avery', 'F', 'American', '1999-02-24', '2023-01-06', 18.00, 6),
+(103, 'Charles', 'Black', 'M', 'American', '1999-07-21', '2023-01-06', 18.00, 6),
+(104, 'Warren', 'Greene', 'M', 'New Zealander', '1999-07-24', '2023-01-06', 18.00, 6),
+(105, 'Alan', 'May', 'M', 'New Zealander', '2000-07-21', '2023-01-06', 18.00, 6),
+(106, 'Evan', 'Dickens', 'M', 'New Zealander', '2001-02-16', '2023-01-06', 18.00, 6);
+
+-- Update Department Managers
+UPDATE department SET manager_id = 1 WHERE department_id = 1;
+UPDATE department SET manager_id = 2 WHERE department_id = 2;
+UPDATE department SET manager_id = 3 WHERE department_id = 3;
+UPDATE department SET manager_id = 4 WHERE department_id = 4;
+UPDATE department SET manager_id = 5 WHERE department_id = 5;
+UPDATE department SET manager_id = 6 WHERE department_id = 6;
+UPDATE department SET manager_id = 7 WHERE department_id = 7;
+UPDATE department SET manager_id = 8 WHERE department_id = 8;
+UPDATE department SET manager_id = 9 WHERE department_id = 9;
+UPDATE department SET manager_id = 10 WHERE department_id = 10;
+UPDATE department SET manager_id = 11 WHERE department_id = 11;
+UPDATE department SET manager_id = 12 WHERE department_id = 12;
+GO
+
+-- Insert Employee Contacts
+INSERT INTO employee_contact (employee_id, phone_number, email, address) VALUES
+(1, '900236387', 'Aaron.Smith@gmail.com', '3448 Ile De France St #242, Fort Wainwright, Alaska 99703'),
+(2, '962079952', 'Aino.Mkinen@gmail.com', '1106 Aztec Rd, North Pole, Alaska 99706'),
+(3, '903400026', 'Aiden.Nicholson@gmail.com', '2666 Hc 1, Glennallen, Alaska 99688'),
+(4, '903525957', 'Chloe.Hunter@gmail.com', '1676 Evergreen Ave, Juneau, Alaska 99801'),
+(5, '908983079', 'Yuan.Zhang@gmail.com', '1618 Stellar Dr, Kenai, Alaska 99611');
+-- ... (include all employee contacts from your original data)
+GO
+
+-- Insert Employee Roles
+INSERT INTO employee_role (employee_id, role_id, from_date, to_date) VALUES
+(1, 'R1', '2013-01-02', '2023-10-24'),
+(2, 'R2', '2013-01-02', '2023-10-24'),
+(3, 'R3', '2013-01-02', '2023-10-24'),
+(4, 'R4', '2013-01-02', '2023-10-24'),
+(5, 'R5', '2013-01-02', '2023-10-24'),
+(6, 'R6', '2013-01-02', '2023-10-24'),
+(7, 'R7', '2013-01-02', '2023-10-24'),
+(8, 'R8', '2013-01-02', '2023-10-24'),
+(9, 'R9', '2013-01-02', '2023-10-24'),
+(10, 'R10', '2013-01-02', '2023-10-24'),
+(11, 'R11', '2013-01-02', '2023-10-24'),
+(12, 'R12', '2013-01-02', '2023-10-24'),
+(13, 'R13', '2013-01-02', '2023-10-24'),
+(14, 'R13', '2020-01-05', '2023-10-24'),
+(15, 'R13', '2020-01-05', '2023-10-24'),
+(16, 'R13', '2020-01-05', '2023-10-24'),
+(17, 'R13', '2020-01-05', '2023-10-24'),
+(18, 'R21', '2020-01-05', '2023-10-24'),
+(19, 'R21', '2020-01-05', '2023-10-24'),
+(20, 'R21', '2020-01-05', '2023-10-24'),
+(21, 'R19', '2020-01-05', '2023-10-24'),
+(22, 'R27', '2020-01-05', '2023-10-24'),
+(23, 'R27', '2020-01-05', '2023-10-24'),
+(24, 'R27', '2021-01-05', '2023-10-24'),
+(25, 'R27', '2021-01-05', '2023-10-24'),
+(26, 'R31', '2021-01-05', '2023-10-24'),
+(27, 'R31', '2021-01-05', '2023-10-24'),
+(28, 'R31', '2021-01-05', '2023-10-24'),
+(29, 'R31', '2021-01-05', '2023-10-24'),
+(30, 'R31', '2021-01-05', '2023-10-24'),
+(31, 'R17', '2021-01-05', '2023-10-24'),
+(32, 'R17', '2021-01-05', '2023-10-24'),
+(33, 'R17', '2022-01-08', '2023-10-24'),
+(34, 'R25', '2022-01-08', '2023-10-24'),
+(35, 'R25', '2022-01-08', '2023-10-24'),
+(36, 'R25', '2022-01-08', '2023-10-24'),
+(37, 'R30', '2022-01-08', '2023-10-24'),
+(38, 'R30', '2022-01-08', '2023-10-24'),
+(39, 'R32', '2022-01-08', '2023-10-24'),
+(40, 'R32', '2022-01-08', '2023-10-24'),
+(41, 'R32', '2023-01-06', '2023-10-24'),
+(42, 'R32', '2023-01-06', '2023-10-24'),
+(43, 'R29', '2023-01-06', '2023-10-24'),
+(44, 'R29', '2023-01-06', '2023-10-24'),
+(45, 'R29', '2023-01-06', '2023-10-24'),
+(46, 'R29', '2023-01-06', '2023-10-24'),
+(47, 'R29', '2023-01-06', '2023-10-24'),
+(48, 'R29', '2023-01-06', '2023-10-24'),
+(49, 'R28', '2023-01-06', '2023-10-24'),
+(50, 'R28', '2023-01-06', '2023-10-24'),
+(51, 'R28', '2023-01-06', '2023-10-24'),
+(52, 'R26', '2023-01-06', '2023-10-24'),
+(53, 'R26', '2023-01-06', '2023-10-24'),
+(54, 'R26', '2023-01-06', '2023-10-24'),
+(55, 'R26', '2023-01-06', '2023-10-24'),
+(56, 'R26', '2023-01-06', '2023-10-24'),
+(57, 'R26', '2023-01-06', '2023-10-24'),
+(58, 'R24', '2023-01-06', '2023-10-24'),
+(59, 'R24', '2023-01-06', '2023-10-24'),
+(60, 'R18', '2023-01-06', '2023-10-24'),
+(61, 'R18', '2023-01-06', '2023-10-24'),
+(62, 'R18', '2023-01-06', '2023-10-24'),
+(63, 'R30', '2023-01-06', '2023-10-24'),
+(64, 'R30', '2023-01-06', '2023-10-24'),
+(65, 'R30', '2023-01-06', '2023-10-24'),
+(66, 'R32', '2023-01-06', '2023-10-24'),
+(67, 'R32', '2023-01-06', '2023-10-24'),
+(68, 'R24', '2023-01-06', '2023-10-24'),
+(69, 'R24', '2023-01-06', '2023-10-24'),
+(70, 'R23', '2023-01-06', '2023-10-24'),
+(71, 'R23', '2023-01-06', '2023-10-24'),
+(72, 'R20', '2023-01-06', '2023-10-24'),
+(73, 'R20', '2023-01-06', '2023-10-24'),
+(74, 'R20', '2023-01-06', '2023-10-24'),
+(75, 'R20', '2023-01-06', '2023-10-24'),
+(76, 'R20', '2023-01-06', '2023-10-24'),
+(77, 'R20', '2023-01-06', '2023-10-24'),
+(78, 'R20', '2023-01-06', '2023-10-24'),
+(79, 'R22', '2023-01-06', '2023-10-24'),
+(80, 'R22', '2023-01-06', '2023-10-24'),
+(81, 'R22', '2023-01-06', '2023-10-24'),
+(82, 'R21', '2023-01-06', '2023-10-24'),
+(83, 'R21', '2023-01-06', '2023-10-24'),
+(84, 'R21', '2023-01-06', '2023-10-24'),
+(85, 'R21', '2023-01-06', '2023-10-24'),
+(86, 'R21', '2023-01-06', '2023-10-24'),
+(87, 'R21', '2023-01-06', '2023-10-24'),
+(88, 'R21', '2023-01-06', '2023-10-24'),
+(89, 'R16', '2023-01-06', '2023-10-24'),
+(90, 'R16', '2023-01-06', '2023-10-24'),
+(91, 'R16', '2023-01-06', '2023-10-24'),
+(92, 'R16', '2023-01-06', '2023-10-24'),
+(93, 'R15', '2023-01-06', '2023-10-24'),
+(94, 'R15', '2023-01-06', '2023-10-24'),
+(95, 'R15', '2021-01-05', '2023-10-24'),
+(96, 'R15', '2021-01-05', '2023-10-24'),
+(97, 'R15', '2021-01-05', '2023-10-24'),
+(98, 'R15', '2023-01-06', '2023-10-24'),
+(99, 'R14', '2023-01-06', '2023-10-24'),
+(100, 'R14', '2023-01-06', '2023-10-24'),
+(101, 'R14', '2023-01-06', '2023-10-24'),
+(102, 'R14', '2022-01-08', '2023-10-24'),
+(103, 'R14', '2023-01-06', '2023-10-24'),
+(104, 'R14', '2022-01-08', '2023-10-24'),
+(105, 'R14', '2023-01-06', '2023-10-24'),
+(106, 'R14', '2022-01-08', '2023-10-24');
+
+-- =====================================================
+-- 2. CUSTOMER MODULE DATA
+-- =====================================================
+
+PRINT 'Inserting Customer Module Data...';
+
+-- Insert Customers
+INSERT INTO customer (customer_id, username, first_name, last_name, gender, birth_date, nationality) VALUES
+(1, 'Ae-.Yun', 'Ae-cha', 'Yun', 'F', '1990-04-20', 'Korean'),
+(2, 'Ali.Now', 'Alicja', 'Nowak', 'F', '1990-11-01', 'Polish'),
+(3, 'Aoi.Wat', 'Aoi', 'Watanabe', 'F', '1989-04-25', 'Japanese'),
+(4, 'Ari.Ish', 'Arisa', 'Ishida', 'F', '1989-04-23', 'Japanese'),
+(5, 'Aro.Rue', 'Aroon', 'Rueng', 'M', '1990-11-20', 'Thai'),
+(6, 'Aur.Dar', 'Aurora', 'Dario', 'F', '1992-05-25', 'Italian'),
+(7, 'Bre.Wun', 'Brenden', 'Wunsch', 'M', '1989-04-23', 'New Zealander'),
+(8, 'Cad.Moh', 'Cade', 'Mohr', 'F', '1989-04-23', 'New Zealander'),
+(9, 'Car.Jac', 'Carrie', 'Jacobi', 'F', '1985-07-21', 'American'),
+(10, 'Cha.Li', 'Changhen', 'Li', 'M', '1979-01-20', 'Singaporean'),
+(11, 'Chl.Run', 'Chloe', 'Runolfsson', 'F', '1990-06-14', 'Icelandic'),
+(12, 'Chr.Kon', 'Christa', 'Konopelski', 'F', '1989-04-24', 'New Zealander'),
+(13, 'Chu.Kim', 'Chul', 'Kim', 'M', '1990-01-06', 'Korean'),
+(14, 'Con.He', 'Cong', 'He', 'M', '1999-11-18', 'Chinese'),
+(15, 'Cot.Kle', 'Coty', 'Klein', 'F', '1987-12-03', 'American'),
+(16, 'Dan.Cor', 'Daniela', 'Corkery', 'F', '1990-01-02', 'British'),
+(17, 'Dar.Kov', 'Daria', 'Kovalenko', 'F', '1990-01-17', 'Ukrainian'),
+(18, 'Dav.Car', 'Davide', 'Carlo', 'M', '1992-05-28', 'Italian'),
+(19, 'Dhi.Awa', 'Dhia', 'Awang', 'F', '1997-06-29', 'Malaysian'),
+(20, 'Dor.Ric', 'Dorthy', 'Rice', 'F', '1979-04-23', 'New Zealander'),
+(21, 'Dua.Won', 'Duanphen', 'Wong', 'F', '1990-05-29', 'Thai'),
+(22, 'Edm.Str', 'Edmond', 'Stracke', 'M', '1990-12-02', 'British'),
+(23, 'Fum.Mur', 'Fumiko', 'Murakami', 'F', '1989-04-23', 'Japanese'),
+(24, 'Gen.Fra', 'Gene', 'Frami', 'F', '1996-06-04', 'British'),
+(25, 'Gil.Rom', 'Gillian', 'Romaguera', 'F', '1988-05-17', 'Dutch'),
+(26, 'Gil.Rip', 'Gillian', 'Rippin', 'F', '1989-08-18', 'New Zealander'),
+(27, 'Gio.Rom', 'Giorgia', 'Romano', 'F', '1994-05-14', 'Italian'),
+(28, 'Gle.Thi', 'Glen', 'Thiel', 'F', '1988-05-26', 'Australian'),
+(29, 'Gun.Bec', 'Gunnar', 'Bechtelar', 'F', '1988-03-16', 'Dutch'),
+(30, 'Gye.Cho', 'Gyeong', 'Choi', 'F', '1982-04-15', 'Korean'),
+(31, 'Ha-.Lee', 'Ha-Joon', 'Lee', 'M', '1990-01-03', 'Korean'),
+(32, 'Han.Kow', 'Hanna', 'Kowalczyk', 'F', '1995-11-18', 'Polish'),
+(33, 'Har.Yun', 'Harry', 'Yundt', 'M', '1989-01-20', 'Australian'),
+(34, 'Har.Suz', 'Haruki', 'Suzuki', 'M', '1990-04-02', 'Japanese'),
+(35, 'Hui.Ma', 'Hui', 'Ma', 'F', '1991-11-18', 'Chinese'),
+(36, 'Hui.Sun', 'Hui', 'Sun', 'F', '1989-01-20', 'Singaporean'),
+(37, 'Ind.Tri', 'Indian', 'Trivedi', 'F', '1990-04-21', 'Indian'),
+(38, 'Isa.Oku', 'Isaac', 'Okuneva', 'M', '1990-12-20', 'British'),
+(39, 'Jar.Gol', 'Jaren', 'Goldner', 'M', '1990-04-15', 'British'),
+(40, 'Jie.Liu', 'Jie', 'Liu', 'F', '1990-11-18', 'Chinese'),
+(41, 'Joa.Hac', 'Joanie', 'Hackett', 'F', '1988-05-17', 'American'),
+(42, 'Kai.Koi', 'Kaija', 'Koivisto', 'F', '1990-11-18', 'Finnish'),
+(43, 'Kam.Gan', 'Kamal', 'Gandhi', 'M', '1990-06-09', 'Indian'),
+(44, 'Kel.May', 'Kellie', 'Mayer', 'F', '1989-01-20', 'Australian'),
+(45, 'Kex.Luo', 'Kexin', 'Luo', 'F', '1990-11-18', 'Chinese'),
+(46, 'Koh.Rue', 'Kohsoom', 'Rueng', 'F', '1990-06-29', 'Thai'),
+(47, 'Kou.Mur', 'Kousei', 'Murakami', 'M', '1989-08-18', 'Japanese'),
+(48, 'Kur.Gay', 'Kurt', 'Gaylord', 'M', '1990-07-28', 'British'),
+(49, 'Lav.Wel', 'Lavinia', 'Welch', 'F', '1985-06-25', 'American'),
+(50, 'Luc.Ale', 'Lucia', 'Alessio', 'F', '1992-05-10', 'Italian'),
+(51, 'Mad.Kra', 'Madee', 'Kraisee', 'F', '1990-06-30', 'Thai'),
+(52, 'Mar.Rip', 'Marisol', 'Rippin', 'M', '1989-01-20', 'Australian'),
+(53, 'Mar.Got', 'Maritza', 'Gottlieb', 'F', '1986-08-20', 'American'),
+(54, 'Mik.McC', 'Mike', 'McCullough', 'M', '1990-01-02', 'British'),
+(55, 'Mil.Loc', 'Milford', 'Lockman', 'F', '1988-05-17', 'American'),
+(56, 'Muc.Xia', 'Muchen', 'Xiao', 'M', '1988-05-26', 'Chinese'),
+(57, 'Mun.Wan', 'Munah', 'Wan', 'F', '1991-06-30', 'Malaysian'),
+(58, 'Nat.Mal', 'Natcha', 'Malai', 'F', '1990-11-17', 'Thai'),
+(59, 'Nel.Spe', 'Nellie', 'Spencer', 'F', '1988-03-16', 'American'),
+(60, 'Orl.Jew', 'Orlo', 'Jewess', 'F', '1989-01-20', 'Australian'),
+(61, 'Pet.Bro', 'Peter', 'Brown', 'M', '1993-11-18', 'American'),
+(62, 'Pet.Bar', 'Petra', 'Bartoletti', 'F', '1990-01-06', 'British'),
+(63, 'Quả.Tân', 'Quảng', 'Tân', 'M', '1990-11-17', 'Vietnamese'),
+(64, 'Rak.Goa', 'Rakesh', 'Goal', 'M', '1994-10-04', 'Indian'),
+(65, 'Riv.Smi', 'River', 'Smith', 'M', '1991-06-28', 'American'),
+(66, 'Rom.Gio', 'Romeo', 'Giovanni', 'M', '1992-05-25', 'Italian'),
+(67, 'Sof.Ang', 'Sofia', 'Angelo', 'F', '1992-04-22', 'Italian'),
+(68, 'Ste.Ker', 'Stewart', 'Kerluke', 'M', '1988-03-16', 'American'),
+(69, 'Tad.Miu', 'Tadashi', 'Miura', 'F', '1989-04-23', 'Japanese'),
+(70, 'Tân.Phạ', 'Tân', 'Phạm', 'M', '1990-07-17', 'Vietnamese'),
+(71, 'Ter.Gra', 'Terry', 'Grady', 'M', '1988-03-16', 'American'),
+(72, 'Vio.Ama', 'Viola', 'Amato', 'F', '1992-05-25', 'Italian'),
+(73, 'Wat.Ksh', 'Watson', 'Kshlerin', 'M', '1987-12-03', 'American'),
+(74, 'Yi.Zho', 'Yi', 'Zhou', 'M', '1992-02-25', 'Chinese'),
+(75, 'Yic.Dai', 'Yichuan', 'Dai', 'M', '1990-11-08', 'Chinese'),
+(76, 'Yiq.Lia', 'Yiquan', 'Liang', 'M', '1989-12-20', 'Singaporean'),
+(77, 'Yua.Fan', 'Yuan', 'Fang', 'F', '1991-07-04', 'Chinese'),
+(78, 'Yus.Bai', 'Yushen', 'Bai', 'F', '1990-11-17', 'Chinese'),
+(79, 'Yuu.Ish', 'Yuuki', 'Ishida', 'M', '1990-01-02', 'Japanese'),
+(80, 'Yuz.Che', 'Yuze', 'Chen', 'M', '1989-09-23', 'Chinese');
+
+-- Insert Customer Contacts
+-- Insert Customer Contacts
+INSERT INTO customer_contact (customer_id, phone_number, email, address) VALUES
+(1, '900169996', 'Ae-cha.Yun@gmail.com', '1105 Aztec Rd, North Pole, Alaska 88705'),
+(2, '907630433', 'Alicja.Nowak@gmail.com', '2566 Hc 1, Glennallen, Alaska 88588'),
+(3, '906021751', 'Aoi.Watanabe@gmail.com', '1575 Evergreen Ave, Juneau, Alaska 88801'),
+(4, '999513929', 'Arisa.Ishida@gmail.com', '1518 Stellar Dr, Kenai, Alaska 88611'),
+(5, '941323671', 'Aroon.Rueng@gmail.com', '1821 Ridge Top Cir, Anchorage, Alaska 88508'),
+(6, '950473912', 'Aurora.Dario@gmail.com', '810 Goldendale Dr, Wasilla, Alaska 88651'),
+(7, '949145540', 'Brenden.Wunsch@gmail.com', '812 Park Ave, Ketchikan, Alaska 88801'),
+(8, '985536991', 'Cade.Mohr@gmail.com', '16 Rr 2, Ketchikan, Alaska 88801'),
+(9, '959291338', 'Carrie.Jacobi@gmail.com', '800 Lanark Dr, Wasilla, Alaska 88651'),
+(10, '944272455', 'Changhen.Li@gmail.com', '215 Cold Storage Rd, Craig, Glennallen 88821'),
+(11, '974252914', 'Chloe.Runolfsson@gmail.com', '2125 Hc 1, Glennallen, Glennallen 88588'),
+(12, '900767239', 'Christa.Konopelski@gmail.com', '12160 Kuphal Motorway Suite 510'),
+(13, '975655322', 'Chul.Kim@gmail.com', '138 Legros Bypass Apt. 777'),
+(14, '975451012', 'Cong.He@gmail.com', '3861 Dicki Loop Apt. 086'),
+(15, '966899874', 'Coty.Klein@gmail.com', '711 Olson Field Suite 032'),
+(16, '962777449', 'Daniela.Corkery@gmail.com', '1257 Kyle Common Apt. 113'),
+(17, '969258727', 'Daria.Kovalenko@gmail.com', '5288 Reichert Parkway Suite 199'),
+(18, '943122207', 'Davide.Carlo@gmail.com', '7040 Ankunding Streets Apt. 264'),
+(19, '974773843', 'Dhia.Awang@gmail.com', '577 Prohaska Skyway Suite 826'),
+(20, '973105702', 'Dorthy.Rice@gmail.com', '3448 Ile De France St #242, Fort Wainwright, Glennallen 99703'),
+(21, '974471415', 'Duanphen.Wong@gmail.com', '4405 Aztec Rd, North Pole, Glennallen 99705'),
+(22, '980796777', 'Edmond.Stracke@gmail.com', '2566 Hc 4, Glennallen, Glennallen 55588'),
+(23, '907949185', 'Fumiko.Murakami@gmail.com', '4575 Evergreen Ave, Juneau, Glennallen 99804'),
+(24, '985697674', 'Gene.Frami@gmail.com', '4548 Stellar Dr, Kenai, Glennallen 99644'),
+(25, '962990133', 'Gillian.Romaguera@gmail.com', '4874 Ridge Top Cir, Anchorage, Glennallen 99508'),
+(26, '981360791', 'Gillian.Rippin@gmail.com', '940 Goldendale Dr, Wasilla, Glennallen 99654'),
+(27, '903956236', 'Giorgia.Romano@gmail.com', '4575 Evergreen Ave, Juneau, Glennallen 99804'),
+(28, '950914603', 'Glen.Thiel@gmail.com', '4548 Stellar Dr, Kenai, Glennallen 55644'),
+(29, '900551259', 'Gunnar.Bechtelar@gmail.com', '4824 Ridge Top Cir, Anchorage, Glennallen 99508'),
+(30, '900873908', 'Gyeong.Choi@gmail.com', '940 Goldendale Dr, Wasilla, Glennallen 99654'),
+(31, '998311417', 'Ha-Joon.Lee@gmail.com', '942 Park Ave, Ketchikan, Alaska 99904'),
+(32, '908863048', 'Hanna.Kowalczyk@gmail.com', '46 Rr 3, Ketchikan, Alaska 99904'),
+(33, '962763362', 'Harry.Yundt@gmail.com', '500 Lanark Dr, Wasilla, Alaska 55654'),
+(34, '992990998', 'Haruki.Suzuki@gmail.com', '245 Cold Storage Rd, Craig, Alaska 99924'),
+(35, '976632206', 'Hui.Ma@gmail.com', '2425 Hc 4, Glennallen, Alaska 99588'),
+(36, '962730165', 'Hui.Sun@gmail.com', '42460 Kuphal Motorway Suite 540'),
+(37, '973072015', 'Indian.Trivedi@gmail.com', '438 Legros Bypass Apt. 777'),
+(38, '969354617', 'Isaac.Okuneva@gmail.com', '3861 Dicki Loop Apt. 086'),
+(39, '900121099', 'Jaren.Goldner@gmail.com', '1575 Evergreen Ave, Juneau, Alaska 99891'),
+(40, '903360026', 'Jie.Liu@gmail.com', '1518 Stellar Dr, Kenai, Alaska 99611'),
+(41, '985818050', 'Joanie.Hackett@gmail.com', '4821 Ridge Top Cir, Anchorage, Alaska 55558'),
+(42, '943872171', 'Kaija.Koivisto@gmail.com', '444 Goldendale Dr, Wasilla, Alaska 44644'),
+(43, '995160326', 'Kamal.Gandhi@gmail.com', '1575 Evergreen Ave, Juneau, Alaska 99891'),
+(44, '945957506', 'Kellie.Mayer@gmail.com', '1518 Stellar Dr, Kenai, Alaska 99611'),
+(45, '901653432', 'Kexin.Luo@gmail.com', '4821 Ridge Top Cir, Anchorage, Alaska 99598'),
+(46, '942093296', 'Kohsoom.Rueng@gmail.com', '444 Goldendale Dr, Wasilla, Alaska 44644'),
+(47, '964954779', 'Kousei.Murakami@gmail.com', '912 Park Ave, Ketchikan, Alaska 99991'),
+(48, '907540933', 'Kurt.Gaylord@gmail.com', '16 Rr 2, Ketchikan, Alaska 99991'),
+(49, '999020744', 'Lavinia.Welch@gmail.com', '645 Cold Storage Rd, Craig, Alaska 99961'),
+(50, '977439659', 'Lucia.Alessio@gmail.com', '6465 Hc 1, Glennallen, Alaska 55588'),
+(51, '995097351', 'Madee.Kraisee@gmail.com', '13169 Kuphal Motorway Suite 549'),
+(52, '981988564', 'Marisol.Rippin@gmail.com', '438 Legros Bypass Apt. 777'),
+(53, '992844012', 'Maritza.Gottlieb@gmail.com', '3861 Dicki Loop Apt. 986'),
+(54, '983797287', 'Mike.McCullough@gmail.com', '999 Lanark Dr, Wasilla, Alaska 99644'),
+(55, '949098087', 'Milford.Lockman@gmail.com', '645 Cold Storage Rd, Craig, Alaska 99961'),
+(56, '900273800', 'Muchen.Xiao@gmail.com', '6465 Hc 1, Glennallen, Alaska 99588'),
+(57, '991267120', 'Munah.Wan@gmail.com', '13165 Kuphal Motorway Suite 545'),
+(58, '991199777', 'Natcha.Malai@gmail.com', '438 Legros Bypass Apt. 777'),
+(59, '969204442', 'Nellie.Spencer@gmail.com', '3861 Dicki Loop Apt. 986'),
+(60, '901306409', 'Orlo.Jewess@gmail.com', '744 Olson Field Suite 936'),
+(61, '901317122', 'Peter.Brown@gmail.com', '1257 Kyle Common Apt. 443'),
+(62, '993040321', 'Petra.Bartoletti@gmail.com', '5288 Reichert Parkway Suite 411'),
+(63, '940792192', 'Quảng.Tân@gmail.com', '5141 Ankunding Streets Apt. 264'),
+(64, '964941411', 'Rakesh.Goal@gmail.com', '555 Prohaska Skyway Suite 826'),
+(65, '959484817', 'River.Smith@gmail.com', '3448 Ile De France St #242, Fort Wainwright, Alaska 11513'),
+(66, '962184429', 'Romeo.Giovanni@gmail.com', '1115 Aztec Rd, North Pole, Alaska 11515'),
+(67, '981968614', 'Sofia.Angelo@gmail.com', '2566 Hc 1, Glennallen, Alaska 11588'),
+(68, '947851088', 'Stewart.Kerluke@gmail.com', '1555 Evergreen Ave, Juneau, Alaska 11811'),
+(69, '959489910', 'Tadashi.Miura@gmail.com', '16 Rr 3, Ketchikan, Alaska 99901'),
+(70, '975186829', 'Tân.Phạm@gmail.com', '400 Lanark Dr, Wasilla, Alaska 44641'),
+(71, '946622868', 'Terry.Grady@gmail.com', '244 Cold Storage Rd, Craig, Alaska 99921'),
+(72, '976047417', 'Viola.Amato@gmail.com', '2425 Hc 1, Glennallen, Alaska 99588'),
+(73, '900377997', 'Watson.Kshlerin@gmail.com', '12160 Kuphal Motorway Suite 540'),
+(74, '904317772', 'Yi.Zhou@gmail.com', '438 Legros Bypass Apt. 555'),
+(75, '977795778', 'Yichuan.Dai@gmail.com', '3861 Dicki Loop Apt. 086'),
+(76, '908951401', 'Yiquan.Liang@gmail.com', '1444 Evergreen Ave, Juneau, Alaska 99891'),
+(77, '907862119', 'Yuan.Fang@gmail.com', '1518 Stellar Dr, Kenai, Alaska 99611'),
+(78, '906004597', 'Yushen.Bai@gmail.com', '2566 Hc 1, Glennallen, Glennallen 55588'),
+(79, '957828059', 'Yuuki.Ishida@gmail.com', '1444 Evergreen Ave, Juneau, Glennallen 99801'),
+(80, '902796233', 'Yuze.Chen@gmail.com', '1518 Stellar Dr, Kenai, Glennallen 99611');
+
+-- Insert Membership Info
+INSERT INTO membership_info (membership_code, membership_name) VALUES
+('SE', 'Silver Elite'),
+('GE', 'Gold Elite'),
+('PE', 'Platinum Elite');
+GO
+
+-- Insert Memberships
+INSERT INTO membership (membership_id, membership_code, customer_id, from_date, to_date) VALUES
+(1, 'SE', 1, '2022-10-10', '2030-10-10'),
+(2, 'GE', 4, '2022-10-10', '2030-10-10'),
+(3, 'GE', 7, '2022-10-10', '2030-10-10'),
+(4, 'PE', 10, '2021-09-09', '2029-09-09'),
+(5, 'GE', 13, '2021-09-09', '2029-09-09'),
+(6, 'PE', 16, '2021-09-09', '2029-09-09'),
+(7, 'SE', 19, '2022-10-10', '2024-10-10'),
+(8, 'GE', 22, '2021-09-09', '2029-09-09'),
+(9, 'PE', 25, '2021-09-09', '2029-09-09'),
+(10, 'SE', 28, '2021-09-09', '2029-09-09'),
+(11, 'PE', 31, '2023-08-08', '2031-08-08'),
+(12, 'GE', 34, '2022-10-10', '2030-10-10'),
+(13, 'SE', 37, '2023-11-11', '2023-08-18'),
+(14, 'PE', 40, '2023-08-08', '2031-08-08'),
+(15, 'SE', 43, '2023-08-08', '2031-08-08'),
+(16, 'GE', 46, '2022-10-10', '2030-10-10'),
+(17, 'GE', 49, '2023-08-08', '2031-08-08'),
+(18, 'SE', 52, '2023-08-08', '2031-08-08'),
+(19, 'SE', 55, '2023-08-08', '2031-08-08'),
+(20, 'SE', 58, '2023-08-08', '2031-08-08');
+-- =====================================================
+-- 3. ROOM MODULE DATA
+-- =====================================================
+
+PRINT 'Inserting Room Module Data...';
+
+-- Insert Room Status
+INSERT INTO room_status (room_status_id, room_status_name) VALUES
+('S1', 'Booked'),
+('S2', 'Vacant'),
+('S3', 'Being cleaned');
+GO
+
+-- Insert Room Types
+INSERT INTO room_type (room_type_id, room_type_name, max_capacity, price_usd) VALUES
+('T1', 'Single', 1, 120.00),
+('T2', 'Double', 2, 150.00),
+('T3', 'Queen', 3, 190.00),
+('T4', 'King', 3, 200.00),
+('T5', 'Family suite', 4, 230.00),
+('T6', 'Deluxe room', 4, 260.00),
+('T7', 'Mini suite', 4, 300.00),
+('T8', 'Executive suite', 4, 320.00),
+('T9', 'Presidential suite', 4, 390.00);
+GO
+
+-- Insert Rooms
+INSERT INTO room (room_number, room_type_id, room_status_id, is_pet_friendly, is_smoker_friendly, is_disability_friendly) VALUES
+('100', 'T1', 'S1', 1, 1, 1),
+('101', 'T1', 'S2', 1, 1, 0),
+('102', 'T1', 'S1', 1, 1, 0),
+('103', 'T1', 'S2', 1, 0, 0),
+('105', 'T1', 'S2', 1, 0, 0),
+('106', 'T1', 'S1', 1, 0, 0),
+('107', 'T1', 'S2', 0, 0, 0),
+('108', 'T1', 'S2', 0, 0, 0),
+('109', 'T1', 'S1', 0, 0, 0),
+('110', 'T1', 'S1', 0, 0, 0),
+('111', 'T1', 'S1', 0, 0, 0),
+('112', 'T1', 'S1', 0, 0, 0),
+('115', 'T2', 'S1', 1, 1, 1),
+('116', 'T2', 'S1', 1, 1, 0),
+('117', 'T2', 'S1', 1, 0, 0),
+('118', 'T2', 'S1', 1, 0, 0),
+('119', 'T2', 'S1', 0, 0, 0),
+('120', 'T2', 'S1', 0, 0, 0),
+('121', 'T2', 'S1', 0, 0, 0),
+('122', 'T2', 'S1', 0, 0, 0),
+('201', 'T3', 'S2', 1, 1, 1),
+('202', 'T3', 'S1', 1, 1, 0),
+('203', 'T3', 'S2', 1, 0, 0),
+('205', 'T3', 'S1', 1, 0, 0),
+('206', 'T3', 'S1', 0, 0, 0),
+('207', 'T4', 'S1', 0, 0, 0),
+('208', 'T4', 'S2', 0, 0, 0),
+('209', 'T4', 'S1', 0, 0, 0),
+('210', 'T4', 'S2', 0, 0, 0),
+('300', 'T5', 'S1', 1, 1, 1),
+('301', 'T5', 'S3', 1, 1, 0),
+('302', 'T5', 'S3', 1, 0, 0),
+('303', 'T5', 'S3', 0, 0, 0),
+('305', 'T5', 'S1', 0, 0, 0),
+('306', 'T6', 'S1', 1, 1, 1),
+('307', 'T6', 'S1', 1, 1, 0),
+('308', 'T6', 'S1', 0, 0, 0),
+('309', 'T7', 'S1', 1, 1, 0),
+('310', 'T7', 'S1', 0, 0, 0),
+('500', 'T8', 'S1', 1, 1, 1),
+('501', 'T8', 'S1', 1, 1, 0),
+('502', 'T8', 'S1', 0, 0, 0),
+('503', 'T8', 'S3', 0, 0, 0),
+('600', 'T9', 'S1', 1, 1, 1),
+('601', 'T9', 'S1', 0, 0, 0);
+
+-- Insert Room Bookings
+INSERT INTO room_booked (booking_number, room_number, customer_id, number_of_guests, from_date, to_date) VALUES
+('11-111-11111', '100', 1, 1, '2023-09-23', '2023-09-24'),
+('11-111-11112', '102', 2, 1, '2023-09-23', '2023-09-24'),
+('11-111-11113', '103', 3, 1, '2023-09-23', '2023-09-24'),
+('11-111-11114', '105', 4, 1, '2023-09-23', '2023-09-24'),
+('11-111-11115', '106', 5, 1, '2023-09-23', '2023-09-24'),
+('11-111-11116', '110', 6, 1, '2023-09-23', '2023-09-25'),
+('11-111-11117', '111', 7, 1, '2023-09-23', '2023-09-25'),
+('11-111-11118', '112', 8, 1, '2023-09-23', '2023-09-25'),
+('11-111-11119', '115', 9, 2, '2023-09-23', '2023-09-25'),
+('11-111-11120', '116', 10, 2, '2023-09-23', '2023-09-25'),
+('11-111-11121', '119', 11, 2, '2023-09-24', '2023-09-25'),
+('11-111-11122', '120', 12, 2, '2023-09-24', '2023-09-25'),
+('11-111-11123', '121', 13, 2, '2023-09-23', '2023-09-25'),
+('11-111-11124', '122', 14, 2, '2023-09-23', '2023-09-24'),
+('11-111-11125', '202', 15, 3, '2023-09-24', '2023-09-25'),
+('11-111-11126', '205', 16, 3, '2023-09-23', '2023-09-25'),
+('11-111-11127', '207', 17, 3, '2023-09-24', '2023-09-25'),
+('11-111-11128', '208', 18, 3, '2023-09-22', '2023-09-25'),
+('11-111-11129', '210', 19, 3, '2023-09-24', '2023-09-25'),
+('11-111-11130', '300', 20, 4, '2023-09-24', '2023-09-25'),
+('11-111-11131', '302', 21, 4, '2023-09-24', '2023-09-25'),
+('11-111-11132', '305', 22, 4, '2023-09-20', '2023-09-25'),
+('11-111-11133', '307', 23, 4, '2023-09-24', '2023-09-25'),
+('11-111-11134', '308', 24, 4, '2023-09-23', '2023-09-25'),
+('11-111-11135', '310', 25, 4, '2023-09-24', '2023-09-25'),
+('11-111-11136', '501', 26, 4, '2023-09-23', '2023-09-30'),
+('11-111-11137', '502', 27, 4, '2023-09-24', '2023-09-30'),
+('11-111-11138', '503', 28, 4, '2023-09-20', '2023-09-30'),
+('11-111-11139', '601', 29, 4, '2023-09-24', '2023-09-30'),
+('11-111-11140', '102', 30, 1, '2023-10-01', '2023-10-07'),
+('11-111-11141', '109', 31, 1, '2023-10-01', '2023-10-07'),
+('11-111-11142', '110', 32, 1, '2023-10-01', '2023-10-05'),
+('11-111-11143', '117', 33, 2, '2023-10-01', '2023-10-07'),
+('11-111-11144', '118', 34, 2, '2023-10-02', '2023-10-07'),
+('11-111-11145', '122', 35, 2, '2023-10-02', '2023-10-07'),
+('11-111-11146', '205', 36, 3, '2023-10-02', '2023-10-07'),
+('11-111-11147', '206', 37, 3, '2023-10-02', '2023-10-07'),
+('11-111-11148', '300', 38, 4, '2023-10-02', '2023-10-07'),
+('11-111-11149', '305', 39, 4, '2023-10-02', '2023-10-05'),
+('11-111-11150', '500', 40, 4, '2023-10-02', '2023-10-09'),
+('11-111-11151', '601', 41, 4, '2023-10-03', '2023-10-10'),
+('11-111-11152', '100', 42, 1, '2023-10-03', '2023-10-10'),
+('11-111-11153', '106', 43, 1, '2023-10-03', '2023-10-06'),
+('11-111-11154', '116', 44, 2, '2023-10-03', '2023-10-08'),
+('11-111-11155', '119', 45, 2, '2023-10-03', '2023-10-07'),
+('11-111-11156', '121', 46, 2, '2023-10-03', '2023-10-07'),
+('11-111-11157', '202', 47, 3, '2023-10-04', '2023-10-07'),
+('11-111-11158', '205', 48, 3, '2023-10-04', '2023-10-07'),
+('11-111-11159', '207', 49, 3, '2023-10-04', '2023-10-05'),
+('11-111-11160', '209', 50, 3, '2023-10-04', '2023-10-06'),
+('11-111-11161', '300', 51, 4, '2023-10-05', '2023-10-07'),
+('11-111-11162', '306', 52, 4, '2023-10-05', '2023-10-07'),
+('11-111-11163', '309', 53, 4, '2023-10-05', '2023-10-07'),
+('11-111-11164', '500', 54, 4, '2023-10-05', '2023-10-07'),
+('11-111-11165', '502', 55, 4, '2023-10-05', '2023-10-07'),
+('11-111-11166', '600', 56, 4, '2023-10-05', '2023-10-08'),
+('11-111-11167', '305', 57, 4, '2023-10-06', '2023-10-08'),
+('11-111-11168', '307', 58, 4, '2023-10-06', '2023-10-08'),
+('11-111-11169', '308', 59, 4, '2023-10-06', '2023-10-08'),
+('11-111-11170', '310', 60, 4, '2023-10-06', '2023-10-08'),
+('11-111-11171', '501', 61, 4, '2023-10-06', '2023-10-08'),
+('11-111-11172', '502', 62, 4, '2023-10-06', '2023-10-08'),
+('11-111-11173', '106', 63, 1, '2023-10-06', '2023-10-08'),
+('11-111-11174', '110', 64, 1, '2023-10-06', '2023-10-06'),
+('11-111-11175', '111', 65, 1, '2023-10-07', '2023-10-09'),
+('11-111-11176', '112', 66, 1, '2023-10-07', '2023-10-07'),
+('11-111-11177', '115', 67, 2, '2023-10-07', '2023-10-08'),
+('11-111-11178', '116', 68, 2, '2023-10-07', '2023-10-08'),
+('11-111-11179', '119', 69, 2, '2023-10-07', '2023-10-10'),
+('11-111-11180', '502', 70, 4, '2023-10-07', '2023-10-11'),
+('11-111-11181', '106', 71, 1, '2023-10-07', '2023-10-11'),
+('11-111-11182', '110', 72, 1, '2023-10-07', '2023-10-11'),
+('11-111-11183', '111', 73, 1, '2023-10-10', '2023-10-11'),
+('11-111-11184', '112', 74, 1, '2023-10-08', '2023-10-11'),
+('11-111-11185', '115', 75, 2, '2023-10-09', '2023-10-11'),
+('11-111-11186', '116', 76, 2, '2023-10-09', '2023-10-11'),
+('11-111-11187', '119', 77, 2, '2023-10-10', '2023-10-10'),
+('11-111-11188', '119', 78, 2, '2023-10-11', '2023-10-13'),
+('11-111-11189', '120', 79, 2, '2023-10-11', '2023-10-14'),
+('11-111-11190', '121', 80, 2, '2023-10-11', '2023-10-15'),
+('11-111-11191', '122', 1, 2, '2023-10-11', '2023-10-15'),
+('11-111-11192', '202', 70, 3, '2023-10-11', '2023-10-17');
+
+-- =====================================================
+-- 4. TRANSACTION MODULE DATA
+-- =====================================================
+
+PRINT 'Inserting Transaction Module Data...';
+
+-- Insert Transaction Status
+INSERT INTO transaction_status (transaction_status_id, transaction_status_name) VALUES
+('S1', 'Pending'),
+('S2', 'Settled'),
+('S3', 'Failed'),
+('S4', 'Voided'),
+('S5', 'Refunded'),
+('S6', 'Returned');
+GO
+
+-- Insert Payment Methods
+INSERT INTO payment_method (payment_method_id, payment_method_name) VALUES
+('P1', 'Credit Card'),
+('P2', 'Cash'),
+('P3', 'Mobile Wallet');
+GO
+
+-- Insert Transactions
+INSERT INTO [transaction] (transaction_id, booking_number, employee_id, customer_id, payment_method_id, transaction_status_id, transaction_time) VALUES
+('ABC1234Y865164Y846', '11-111-11111', 93, 1, 'P1', 'S2', '2023-09-24'),
+('ABC12349865XX49846', '11-111-11112', 94, 2, 'P1', 'S2', '2023-09-24'),
+('ABC120098651609806', '11-111-11113', 95, 3, 'P1', 'S2', '2023-09-24'),
+('ABC123478651647846', '11-111-11114', 96, 4, 'P1', 'S2', '2023-09-24'),
+('ABC123490051649846', '11-111-11115', 97, 5, 'P3', 'S2', '2023-09-24'),
+('ABC120000061649846', '11-111-11116', 98, 6, 'P1', 'S2', '2023-09-25'),
+('ABC129498661649846', '11-111-11117', 93, 7, 'P1', 'S2', '2023-09-25'),
+('ABC123498660009846', '11-111-11118', 94, 8, 'P1', 'S2', '2023-09-25'),
+('ABC122228661649846', '11-111-11119', 95, 9, 'P1', 'S2', '2023-09-25'),
+('ABC123498661333346', '11-111-11120', 96, 10, 'P3', 'S2', '2023-09-25'),
+('ABC123491111649846', '11-111-11121', 97, 11, 'P1', 'S2', '2023-09-25'),
+('ABC1234Y866164Y846', '11-111-11122', 98, 12, 'P1', 'S2', '2023-09-25'),
+('ABC123498000000846', '11-111-11123', 93, 13, 'P3', 'S2', '2023-09-25'),
+('ABC1XXX98661649846', '11-111-11124', 94, 14, 'P1', 'S2', '2023-09-24'),
+('ABC123498661649YYY', '11-111-11125', 95, 15, 'P1', 'S2', '2023-09-25'),
+('ABC123490001649846', '11-111-11126', 96, 16, 'P1', 'S2', '2023-09-25'),
+('ABC123478661647846', '11-111-11127', 97, 17, 'P1', 'S2', '2023-09-25'),
+('ABC123498661649846', '11-111-11128', 98, 18, 'P1', 'S2', '2023-09-25'),
+('ABC129491661649146', '11-111-11129', 93, 19, 'P1', 'S2', '2023-09-25'),
+('ZBC123491661649146', '11-111-11130', 94, 20, 'P3', 'S2', '2023-09-25'),
+('ABC123491651649444', '11-111-11131', 95, 21, 'P3', 'S2', '2023-09-25'),
+('ABC123491688849146', '11-111-11132', 96, 22, 'P1', 'S2', '2023-09-25'),
+('ABC123091650609106', '11-111-11133', 97, 23, 'P3', 'S2', '2023-09-25'),
+('ABC123891651649146', '11-111-11134', 98, 24, 'P1', 'S2', '2023-09-25'),
+('ZBC129491651649146', '11-111-11135', 93, 25, 'P1', 'S2', '2023-09-25'),
+('ABC1234Y165164Y146', '11-111-11136', 94, 26, 'P1', 'S2', '2023-09-30'),
+('ABC120491751649146', '11-111-11137', 95, 27, 'P1', 'S2', '2023-09-30'),
+('ABC120491651649146', '11-111-11138', 96, 28, 'P1', 'S2', '2023-09-30'),
+('ABC12X491661649146', '11-111-11139', 97, 29, 'P1', 'S1', '2023-09-30');
+
+-- =====================================================
+-- DATA INSERTION COMPLETE
+-- =====================================================
+
+PRINT 'All data inserted successfully!';
+PRINT 'Summary by Module:';
+PRINT '';
+PRINT '1. EMPLOYEE MODULE:';
+PRINT '   - Roles: 32';
+PRINT '   - Departments: 12';
+PRINT '   - Employees: 106';
+PRINT '   - Employee Contacts: 106';
+PRINT '   - Employee Roles: 106';
+PRINT '';
+PRINT '2. CUSTOMER MODULE:';
+PRINT '   - Customers: 80';
+PRINT '   - Customer Contacts: 80';
+PRINT '   - Membership Info: 3';
+PRINT '   - Memberships: 20';
+PRINT '';
+PRINT '3. ROOM MODULE:';
+PRINT '   - Room Status: 3';
+PRINT '   - Room Types: 9';
+PRINT '   - Rooms: 50';
+PRINT '   - Room Bookings: 92';
+PRINT '';
+PRINT '4. TRANSACTION MODULE:';
+PRINT '   - Transaction Status: 6';
+PRINT '   - Payment Methods: 3';
+PRINT '   - Transactions: 29';
+PRINT '';
+PRINT 'TOTAL: 16 tables with 628 records';
+PRINT 'Database is now fully populated and ready for use.';
+GO
