@@ -81,10 +81,10 @@ A comprehensive relational database system designed for small-to-medium hotels, 
 ## Sample Business Insights
 
 Based on the sample data:
-- **Occupancy Rate**: 45% 
-- **Popular Payment**: Credit Card (65%)
+- **Occupancy Rate**: 71.11% 
+- **Popular Payment**: Credit Card (79.31%)
 - **Member Distribution**: Silver (40%), Gold (35%), Platinum (25%)
-- **International Guests**: 15 nationalities represented
+- **International Guests**: 18 nationalities represented
 
 ## Implementation
 
@@ -95,48 +95,6 @@ hotel-management-database/
 ├── insert_data.sql               # Sample data population  
 ├── sample_queries.sql            # Business queries and reports
 └── README.md                     # Project documentation
-## Business Capabilities
-
-### Operational Management
-- Real-time room availability and status tracking
-- Customer booking and check-in/check-out processes
-- Staff scheduling and role management
-- Membership program administration
-
-### Financial Tracking
-- Payment processing with multiple methods
-- Revenue reporting and transaction history
-- Booking cost calculations and invoicing
-
-### Analytics & Reporting
-- Occupancy rates and revenue analysis
-- Customer demographics and preferences
-- Staff performance and departmental metrics
-
-## Technical Features
-
-### Data Integrity
-- Referential integrity through foreign keys
-- Business rule enforcement with check constraints
-- Unique constraints on critical fields (email, phone)
-
-### Performance
-- Strategic indexing on frequently queried columns
-- Optimized join patterns for complex queries
-- Efficient data types (BIT for flags, DECIMAL for monetary values)
-
-### Views for Business Intelligence
-- `Room_Info`: Complete room details
-- `Departmental_Gender_Differences`: HR analytics
-- `Customer_Nationalities`: Demographic insights
-- `Booked_Customers`: Current guest overview
-
-## Sample Business Insights
-Based on the sample data:
-- **Occupancy Rate**: 45% 
-- **Popular Payment**: Credit Card (65%)
-- **Member Distribution**: Silver (40%), Gold (35%), Platinum (25%)
-- **International Guests**: 15 nationalities represented
 
 ## Quick Start
 
