@@ -12,7 +12,7 @@ Supports core modules: Customers, Rooms, Bookings, Employees, Transactions, Memb
 - `database_creation.sql` — CREATE TABLE statements and constraints (schema).
 - `insert_data.sql` — Sample data to populate tables for testing.
 - `sample_queries.sql` — Sample SQL queries for testing.
-- `schema_diagram.png` — ER diagram.
+- `schema_diagram.pdf` — ER diagram.
 - `report.pdf` — Full project report and explanation.
 
 ## How to run
