@@ -1,0 +1,352 @@
+-- =====================================================
+-- Hotel Management Database System
+-- Sample Queries and Business Reports
+-- Author: Qinyi Qiu
+-- Date: October 2023 (updated 2025 revision)
+-- =====================================================
+
+USE hotel_management_database;
+GO
+
+PRINT '=== HOTEL MANAGEMENT SAMPLE QUERIES ===';
+PRINT '';
+
+-- =====================================================
+-- 1. ROOM MANAGEMENT & AVAILABILITY QUERIES
+-- =====================================================
+
+PRINT '1. ROOM MANAGEMENT & AVAILABILITY';
+PRINT '----------------------------------';
+GO
+
+-- Query 1.1: Find available rooms for specific criteria
+PRINT '1.1 Available rooms for 3+ guests, under $300, pet-friendly';
+SELECT 
+    r.room_number AS 'Room Number',
+    rt.room_type_name AS 'Room Type',
+    rt.max_capacity AS 'Max Capacity',
+    rt.price_usd AS 'Price (USD)',
+    rs.room_status_name AS 'Status'
+FROM room r
+INNER JOIN room_type rt ON r.room_type_id = rt.room_type_id
+INNER JOIN room_status rs ON r.room_status_id = rs.room_status_id
+WHERE rt.max_capacity >= 3
+    AND rt.price_usd < 300
+    AND r.is_pet_friendly = 1
+    AND rs.room_status_name = 'Vacant';
+GO
+
+-- Query 1.2: Current room occupancy rate
+PRINT '1.2 Current room occupancy rate';
+SELECT 
+    COUNT(*) AS 'Total Rooms',
+    SUM(CASE WHEN rs.room_status_name = 'Booked' THEN 1 ELSE 0 END) AS 'Occupied Rooms',
+    CAST(SUM(CASE WHEN rs.room_status_name = 'Booked' THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS DECIMAL(5,2)) AS 'Occupancy Rate %'
+FROM room r
+INNER JOIN room_status rs ON r.room_status_id = rs.room_status_id;
+GO
+
+-- Query 1.3: Rooms needing cleaning
+PRINT '1.3 Rooms currently being cleaned';
+SELECT 
+    r.room_number AS 'Room Number',
+    rt.room_type_name AS 'Room Type'
+FROM room r
+INNER JOIN room_type rt ON r.room_type_id = rt.room_type_id
+INNER JOIN room_status rs ON r.room_status_id = rs.room_status_id
+WHERE rs.room_status_name = 'Being cleaned';
+GO
+
+-- =====================================================
+-- 2. CUSTOMER & BOOKING QUERIES
+-- =====================================================
+
+PRINT '';
+PRINT '2. CUSTOMER & BOOKING MANAGEMENT';
+PRINT '--------------------------------';
+GO
+
+-- Query 2.1: Current guests with contact information
+PRINT '2.1 Current hotel guests';
+SELECT 
+    rb.room_number AS 'Room',
+    c.first_name + ' ' + c.last_name AS 'Guest Name',
+    cc.phone_number AS 'Phone',
+    rb.number_of_guests AS 'Guests',
+    rb.from_date AS 'Check-In',
+    rb.to_date AS 'Check-Out'
+FROM room_booked rb
+INNER JOIN customer c ON rb.customer_id = c.customer_id
+INNER JOIN customer_contact cc ON c.customer_id = cc.customer_id
+WHERE GETDATE() BETWEEN rb.from_date AND rb.to_date
+ORDER BY rb.room_number;
+GO
+
+-- Query 2.2: Customers celebrating birthdays during their stay
+PRINT '2.2 Guests celebrating birthdays during stay';
+SELECT 
+    c.first_name + ' ' + c.last_name AS 'Guest Name',
+    c.birth_date AS 'Birthday',
+    rb.room_number AS 'Room',
+    rb.from_date AS 'Check-In',
+    rb.to_date AS 'Check-Out'
+FROM customer c
+INNER JOIN room_booked rb ON c.customer_id = rb.customer_id
+WHERE MONTH(c.birth_date) = MONTH(rb.from_date)
+    OR MONTH(c.birth_date) = MONTH(rb.to_date)
+    OR MONTH(c.birth_date) = MONTH(GETDATE());
+GO
+
+-- Query 2.3: Customer nationality distribution
+PRINT '2.3 Customer nationalities distribution';
+SELECT 
+    nationality AS 'Nationality',
+    COUNT(*) AS 'Number of Customers'
+FROM customer
+GROUP BY nationality
+ORDER BY COUNT(*) DESC;
+GO
+
+-- =====================================================
+-- 3. MEMBERSHIP & LOYALTY QUERIES
+-- =====================================================
+
+PRINT '';
+PRINT '3. MEMBERSHIP & LOYALTY PROGRAM';
+PRINT '------------------------------';
+GO
+
+-- Query 3.1: Membership tier distribution
+PRINT '3.1 Membership tier distribution';
+SELECT 
+    mi.membership_name AS 'Membership Tier',
+    COUNT(*) AS 'Number of Members'
+FROM membership m
+INNER JOIN membership_info mi ON m.membership_code = mi.membership_code
+GROUP BY mi.membership_name
+ORDER BY COUNT(*) DESC;
+GO
+
+-- Query 3.2: First members to join each tier
+PRINT '3.2 First Silver Elite members';
+SELECT TOP 3 
+    c.first_name + ' ' + c.last_name AS 'Member Name',
+    m.from_date AS 'Join Date'
+FROM membership m
+INNER JOIN customer c ON m.customer_id = c.customer_id
+INNER JOIN membership_info mi ON m.membership_code = mi.membership_code
+WHERE mi.membership_name = 'Silver Elite'
+ORDER BY m.from_date ASC;
+GO
+
+-- Query 3.3: Members with expiring memberships (next 30 days)
+PRINT '3.3 Memberships expiring soon';
+SELECT 
+    c.first_name + ' ' + c.last_name AS 'Member Name',
+    mi.membership_name AS 'Membership Tier',
+    m.to_date AS 'Expiry Date'
+FROM membership m
+INNER JOIN customer c ON m.customer_id = c.customer_id
+INNER JOIN membership_info mi ON m.membership_code = mi.membership_code
+WHERE m.to_date BETWEEN GETDATE() AND DATEADD(DAY, 30, GETDATE())
+ORDER BY m.to_date;
+GO
+
+-- =====================================================
+-- 4. EMPLOYEE & STAFF MANAGEMENT QUERIES
+-- =====================================================
+
+PRINT '';
+PRINT '4. EMPLOYEE & STAFF MANAGEMENT';
+PRINT '-----------------------------';
+GO
+
+-- Query 4.1: Young employees (under 25)
+PRINT '4.1 Employees under 25 years old';
+SELECT 
+    employee_id AS 'Employee ID',
+    first_name + ' ' + last_name AS 'Name',
+    DATEDIFF(YEAR, birth_date, GETDATE()) AS 'Age',
+    department_id AS 'Dept ID'
+FROM employee
+WHERE DATEDIFF(YEAR, birth_date, GETDATE()) < 25
+ORDER BY Age;
+GO
+
+-- Query 4.2: Department gender and salary statistics
+PRINT '4.2 Departmental gender and salary overview';
+SELECT 
+    d.department_name AS 'Department',
+    COUNT(*) AS 'Total Employees',
+    SUM(CASE WHEN e.gender = 'M' THEN 1 ELSE 0 END) AS 'Male',
+    SUM(CASE WHEN e.gender = 'F' THEN 1 ELSE 0 END) AS 'Female',
+    AVG(e.hourly_salary_usd) AS 'Avg Hourly Salary'
+FROM employee e
+INNER JOIN department d ON e.department_id = d.department_id
+GROUP BY d.department_name
+ORDER BY COUNT(*) DESC;
+GO
+
+-- Query 4.3: Find employee's manager
+PRINT '4.3 Find Terrell Cole''s manager';
+SELECT 
+    e.first_name + ' ' + e.last_name AS 'Employee Name',
+    m.first_name + ' ' + m.last_name AS 'Manager Name',
+    ec.phone_number AS 'Manager Phone'
+FROM employee e
+INNER JOIN department d ON e.department_id = d.department_id
+INNER JOIN employee m ON d.manager_id = m.employee_id
+INNER JOIN employee_contact ec ON m.employee_id = ec.employee_id
+WHERE e.first_name = 'Terrell' AND e.last_name = 'Cole';
+GO
+
+-- =====================================================
+-- 5. FINANCIAL & TRANSACTION QUERIES
+-- =====================================================
+
+PRINT '';
+PRINT '5. FINANCIAL & TRANSACTION REPORTS';
+PRINT '----------------------------------';
+GO
+
+-- Query 5.1: Calculate booking cost for specific reservation
+PRINT '5.1 Calculate cost for booking 11-111-11191';
+SELECT 
+    c.first_name + ' ' + c.last_name AS 'Customer Name',
+    rb.room_number AS 'Room',
+    rt.room_type_name AS 'Room Type',
+    rb.from_date AS 'Check-In',
+    rb.to_date AS 'Check-Out',
+    DATEDIFF(DAY, rb.from_date, rb.to_date) AS 'Nights',
+    rt.price_usd AS 'Price per Night',
+    (DATEDIFF(DAY, rb.from_date, rb.to_date) * rt.price_usd) AS 'Total Cost'
+FROM room_booked rb
+INNER JOIN customer c ON rb.customer_id = c.customer_id
+INNER JOIN room r ON rb.room_number = r.room_number
+INNER JOIN room_type rt ON r.room_type_id = rt.room_type_id
+WHERE rb.booking_number = '11-111-11191';
+GO
+
+-- Query 5.2: Daily revenue summary
+PRINT '5.2 Daily transaction summary';
+SELECT 
+    CAST(t.transaction_time AS DATE) AS 'Transaction Date',
+    COUNT(*) AS 'Number of Transactions',
+    SUM(rt.price_usd * DATEDIFF(DAY, rb.from_date, rb.to_date)) AS 'Total Revenue',
+    AVG(rt.price_usd * DATEDIFF(DAY, rb.from_date, rb.to_date)) AS 'Average Booking Value'
+FROM [transaction] t
+INNER JOIN room_booked rb ON t.booking_number = rb.booking_number
+INNER JOIN room r ON rb.room_number = r.room_number
+INNER JOIN room_type rt ON r.room_type_id = rt.room_type_id
+WHERE t.transaction_status_id = 'S2'  -- Settled transactions
+GROUP BY CAST(t.transaction_time AS DATE)
+ORDER BY CAST(t.transaction_time AS DATE) DESC;
+GO
+
+-- Query 5.3: Payment method distribution
+PRINT '5.3 Payment method usage';
+SELECT 
+    pm.payment_method_name AS 'Payment Method',
+    COUNT(*) AS 'Number of Transactions',
+    CAST(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM [transaction]) AS DECIMAL(5,2)) AS 'Percentage %'
+FROM [transaction] t
+INNER JOIN payment_method pm ON t.payment_method_id = pm.payment_method_id
+GROUP BY pm.payment_method_name
+ORDER BY COUNT(*) DESC;
+GO
+
+-- =====================================================
+-- 6. BUSINESS INTELLIGENCE & ANALYTICAL QUERIES
+-- =====================================================
+
+PRINT '';
+PRINT '6. BUSINESS INTELLIGENCE & ANALYTICS';
+PRINT '------------------------------------';
+GO
+
+-- Query 6.1: Monthly booking trends
+PRINT '6.1 Monthly booking trends';
+SELECT 
+    YEAR(from_date) AS 'Year',
+    MONTH(from_date) AS 'Month',
+    COUNT(*) AS 'Number of Bookings',
+    AVG(DATEDIFF(DAY, from_date, to_date)) AS 'Average Stay (Days)',
+    SUM(number_of_guests) AS 'Total Guests'
+FROM room_booked
+GROUP BY YEAR(from_date), MONTH(from_date)
+ORDER BY YEAR(from_date) DESC, MONTH(from_date) DESC;
+GO
+
+-- Query 6.2: Most popular room types
+PRINT '6.2 Most popular room types';
+SELECT 
+    rt.room_type_name AS 'Room Type',
+    COUNT(*) AS 'Number of Bookings',
+    AVG(DATEDIFF(DAY, rb.from_date, rb.to_date)) AS 'Avg Stay (Days)',
+    SUM(rt.price_usd * DATEDIFF(DAY, rb.from_date, rb.to_date)) AS 'Total Revenue'
+FROM room_booked rb
+INNER JOIN room r ON rb.room_number = r.room_number
+INNER JOIN room_type rt ON r.room_type_id = rt.room_type_id
+GROUP BY rt.room_type_name
+ORDER BY COUNT(*) DESC;
+GO
+
+-- Query 6.3: Employee tenure analysis
+PRINT '6.3 Employee tenure analysis';
+SELECT 
+    department_name AS 'Department',
+    COUNT(*) AS 'Total Employees',
+    AVG(DATEDIFF(YEAR, hire_date, GETDATE())) AS 'Avg Tenure (Years)',
+    MIN(DATEDIFF(YEAR, hire_date, GETDATE())) AS 'Min Tenure',
+    MAX(DATEDIFF(YEAR, hire_date, GETDATE())) AS 'Max Tenure'
+FROM employee e
+INNER JOIN department d ON e.department_id = d.department_id
+GROUP BY department_name
+ORDER BY AVG(DATEDIFF(YEAR, hire_date, GETDATE())) DESC;
+GO
+
+-- =====================================================
+-- 7. DATA MAINTENANCE & UPDATE QUERIES
+-- =====================================================
+
+PRINT '';
+PRINT '7. DATA MAINTENANCE & UPDATES';
+PRINT '----------------------------';
+GO
+
+-- Query 7.1: Update room type pricing
+PRINT '7.1 Increase Presidential suite price by $10';
+UPDATE room_type
+SET price_usd = price_usd + 10
+WHERE room_type_name = 'Presidential suite';
+
+-- Verify the update
+SELECT room_type_name, price_usd 
+FROM room_type 
+WHERE room_type_name = 'Presidential suite';
+GO
+
+-- Query 7.2: Update room status after checkout
+PRINT '7.2 Update room status to Vacant after checkout';
+UPDATE room
+SET room_status_id = 'S2'  -- Vacant
+WHERE room_number IN (
+    SELECT DISTINCT r.room_number
+    FROM room r
+    INNER JOIN room_booked rb ON r.room_number = rb.room_number
+    WHERE rb.to_date < GETDATE()
+    AND r.room_status_id = 'S1'  -- Currently Booked
+);
+GO
+
+-- Query 7.3: Find duplicate customer records
+PRINT '7.3 Potential duplicate customers';
+SELECT 
+    first_name,
+    last_name,
+    COUNT(*) AS duplicate_count
+FROM customer
+GROUP BY first_name, last_name
+HAVING COUNT(*) > 1;
+GO
+
