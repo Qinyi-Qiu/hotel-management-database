@@ -24,7 +24,7 @@ PRINT '1.1 Complete Business Statistics Summary';
 -- STEP 1: create CTEs for better readability
 WITH 
 -- Total and booked room counts
-room_stats AS (
+room_occupancy_stats AS (
     SELECT 
         COUNT(*) AS total_rooms_number,
         SUM(CASE WHEN rs.room_status_name = 'Booked' THEN 1 ELSE 0 END) AS booked_rooms_number
@@ -33,7 +33,7 @@ room_stats AS (
 ),
 
 -- Payment method usage statistics
-payment_stats AS (
+payment_method_usage AS (
     SELECT 
         pm.payment_method_name,
         COUNT(*) AS method_count
@@ -43,7 +43,7 @@ payment_stats AS (
 ),
 
 -- Membership level distribution
-membership_stats AS (
+membership_distribution AS (
     SELECT 
         membership_code,
         COUNT(*) AS count_per_level
@@ -52,40 +52,40 @@ membership_stats AS (
 ),
 
 -- Customer nationality diversity
-customer_stats AS (
+customer_nationality_diversity AS (
     SELECT COUNT(DISTINCT nationality) AS nationality_count FROM customer
 )
 
 -- STEP 2: present summarized business insights
 SELECT 
     -- Occupancy rate (as percentage, cast to 2 decimals)
-    CAST((SELECT booked_rooms_number FROM room_stats) * 100.0 / 
-         (SELECT total_rooms_number FROM room_stats) AS DECIMAL(5,2)) AS 'Occupancy Rate Percent',
+    CAST((SELECT booked_rooms_number FROM room_occupancy_stats) * 100.0 / 
+         (SELECT total_rooms_number FROM room_occupancy_stats) AS DECIMAL(5,2)) AS 'Occupancy Rate Percent',
 
     -- Top payment method by transaction count
     (SELECT TOP 1 payment_method_name 
-     FROM payment_stats 
+     FROM payment_method_usage 
      ORDER BY method_count DESC) AS 'Top Payment Method',
 
     -- Credit card usage percentage
     CAST((
         SELECT ISNULL(method_count, 0)
-        FROM payment_stats 
+        FROM payment_method_usage 
         WHERE payment_method_name = 'Credit Card'
-    ) * 100.0 / (SELECT SUM(method_count) FROM payment_stats) AS DECIMAL(5,2)) AS 'Credit Card Percent',
+    ) * 100.0 / (SELECT SUM(method_count) FROM payment_method_usage) AS DECIMAL(5,2)) AS 'Credit Card Percent',
 
     -- Membership distribution (Silver, Gold, Platinum)
-    CAST((SELECT ISNULL(count_per_level, 0) FROM membership_stats WHERE membership_code = 'SE') 
-         * 100.0 / (SELECT SUM(count_per_level) FROM membership_stats) AS DECIMAL(5,2)) AS 'Silver Members Percent',
+    CAST((SELECT ISNULL(count_per_level, 0) FROM membership_distribution WHERE membership_code = 'SE') 
+         * 100.0 / (SELECT SUM(count_per_level) FROM membership_distribution) AS DECIMAL(5,2)) AS 'Silver Members Percent',
 
-    CAST((SELECT ISNULL(count_per_level, 0) FROM membership_stats WHERE membership_code = 'GE') 
-         * 100.0 / (SELECT SUM(count_per_level) FROM membership_stats) AS DECIMAL(5,2)) AS 'Gold Members Percent',
+    CAST((SELECT ISNULL(count_per_level, 0) FROM membership_distribution WHERE membership_code = 'GE') 
+         * 100.0 / (SELECT SUM(count_per_level) FROM membership_distribution) AS DECIMAL(5,2)) AS 'Gold Members Percent',
 
-    CAST((SELECT ISNULL(count_per_level, 0) FROM membership_stats WHERE membership_code = 'PE') 
-         * 100.0 / (SELECT SUM(count_per_level) FROM membership_stats) AS DECIMAL(5,2)) AS 'Platinum Members Percent',
+    CAST((SELECT ISNULL(count_per_level, 0) FROM membership_distribution WHERE membership_code = 'PE') 
+         * 100.0 / (SELECT SUM(count_per_level) FROM membership_distribution) AS DECIMAL(5,2)) AS 'Platinum Members Percent',
 
     -- Total different nationalities of guests
-    (SELECT nationality_count FROM customer_stats) AS 'Nationality Count';
+    (SELECT nationality_count FROM customer_nationality_diversity) AS 'Nationality Count';
 
 -- =====================================================
 -- 2. ROOM MANAGEMENT & AVAILABILITY QUERIES
