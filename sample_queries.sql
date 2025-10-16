@@ -138,7 +138,7 @@ PRINT '3.1 Current hotel guests';
 SELECT 
     rb.room_number AS 'Room',
     c.first_name + ' ' + c.last_name AS 'Guest Name',
-    cc.phone_number AS 'Phone',
+    cc.customer_phone_number AS 'Phone',
     rb.number_of_guests AS 'Guests',
     rb.from_date AS 'Check-In',
     rb.to_date AS 'Check-Out'
@@ -234,14 +234,14 @@ ORDER BY COUNT(*) DESC;
 GO
 
 -- Query 5.3: Find employee's manager
-PRINT '5.3 Find Evan Harris's manager';
+PRINT '5.3 Find Evan Harris s manager';
 SELECT 
     e.employee_id AS 'Employee ID',
     e.first_name + ' ' + e.last_name AS 'Employee Name',
     d.department_name AS 'Department',
     m.employee_id AS 'Manager ID', 
     m.first_name + ' ' + m.last_name AS 'Manager Name',
-    ec.phone_number AS 'Manager Phone'
+    ec.employee_phone_number AS 'Manager Phone'
 FROM employee e
 INNER JOIN department d ON e.department_id = d.department_id
 INNER JOIN employee m ON d.manager_id = m.employee_id
