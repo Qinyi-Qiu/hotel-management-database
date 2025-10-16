@@ -152,16 +152,20 @@ GO
 -- Query 3.2: Customers celebrating birthdays during their stay
 PRINT '3.2 Guests celebrating birthdays during stay';
 SELECT 
-    c.first_name + ' ' + c.last_name AS 'Guest Name',
-    c.birth_date AS 'Birthday',
-    rb.room_number AS 'Room',
-    rb.from_date AS 'Check-In',
-    rb.to_date AS 'Check-Out'
+    c.first_name + ' ' + c.last_name AS guest_name,
+    c.birth_date AS birthday,
+    rb.room_number AS room,
+    rb.from_date AS check_in,
+    rb.to_date AS check_out
 FROM customer c
 INNER JOIN room_booked rb ON c.customer_id = rb.customer_id
-WHERE MONTH(c.birth_date) = MONTH(rb.from_date)
-    OR MONTH(c.birth_date) = MONTH(rb.to_date)
-    OR MONTH(c.birth_date) = MONTH(GETDATE());
+WHERE 
+    -- Compare the day/month of the birthday with the stay period
+    CONVERT(date, DATEFROMPARTS(YEAR(rb.from_date), MONTH(c.birth_date), DAY(c.birth_date))) 
+        BETWEEN rb.from_date AND rb.to_date
+    OR 
+    CONVERT(date, DATEFROMPARTS(YEAR(rb.to_date), MONTH(c.birth_date), DAY(c.birth_date))) 
+        BETWEEN rb.from_date AND rb.to_date;
 GO
 
 -- =====================================================
@@ -209,15 +213,28 @@ GO
 
 -- Query 5.1: Young employees (under 25)
 PRINT '5.1 Employees under 25 years old';
+WITH employee_age AS (
+    SELECT 
+        employee_id,
+        first_name,
+        last_name,
+        department_id,
+        DATEDIFF(YEAR, birth_date, GETDATE())
+        - CASE 
+            WHEN DATEADD(YEAR, DATEDIFF(YEAR, birth_date, GETDATE()), birth_date) > GETDATE() 
+            THEN 1 ELSE 0 
+          END AS age
+    FROM employee
+)
 SELECT 
     employee_id AS 'Employee ID',
     first_name + ' ' + last_name AS 'Name',
-    DATEDIFF(YEAR, birth_date, GETDATE()) AS 'Age',
+    age,
     department_id AS 'Dept ID'
-FROM employee
-WHERE DATEDIFF(YEAR, birth_date, GETDATE()) < 25
-ORDER BY Age;
-GO
+FROM employee_age
+WHERE age < 25
+ORDER BY age;
+
 
 -- Query 5.2: Department gender and salary statistics
 PRINT '5.2 Departmental gender and salary overview';
@@ -330,16 +347,24 @@ GO
 
 -- Query 7.3: Employee tenure analysis
 PRINT '7.3 Employee tenure analysis';
+WITH employee_tenure AS (
+    SELECT 
+        e.employee_id,
+        d.department_name,
+        DATEDIFF(YEAR, hire_date, GETDATE())
+          - CASE WHEN DATEADD(YEAR, DATEDIFF(YEAR, hire_date, GETDATE()), hire_date) > GETDATE() THEN 1 ELSE 0 END AS tenure_years
+    FROM employee e
+    INNER JOIN department d ON e.department_id = d.department_id
+)
 SELECT 
-    department_name AS 'Department',
-    COUNT(*) AS 'Total Employees',
-    AVG(DATEDIFF(YEAR, hire_date, GETDATE())) AS 'Avg Tenure (Years)',
-    MIN(DATEDIFF(YEAR, hire_date, GETDATE())) AS 'Min Tenure',
-    MAX(DATEDIFF(YEAR, hire_date, GETDATE())) AS 'Max Tenure'
-FROM employee e
-INNER JOIN department d ON e.department_id = d.department_id
+    department_name AS [Department],
+    COUNT(*) AS total_employees,
+    AVG(CAST(tenure_years AS FLOAT)) AS avg_tenure_years,
+    MIN(tenure_years) AS min_tenure,
+    MAX(tenure_years) AS max_tenure
+FROM employee_tenure
 GROUP BY department_name
-ORDER BY AVG(DATEDIFF(YEAR, hire_date, GETDATE())) DESC;
+ORDER BY avg_tenure_years DESC;
 GO
 
 -- =====================================================
@@ -365,15 +390,15 @@ GO
 
 -- Query 8.2: Update room status after checkout
 PRINT '8.2 Update room status to Vacant after checkout';
+-- Mark rooms as Vacant where there is no booking covering today
 UPDATE room
 SET room_status_id = 'S2'  -- Vacant
-WHERE room_number IN (
-    SELECT DISTINCT r.room_number
-    FROM room r
-    INNER JOIN room_booked rb ON r.room_number = rb.room_number
-    WHERE rb.to_date < GETDATE()
-    AND r.room_status_id = 'S1'  -- Currently Booked
-);
+WHERE room_status_id = 'S1'  -- currently marked Booked
+  AND room_number NOT IN (
+      SELECT rb.room_number
+      FROM room_booked rb
+      WHERE GETDATE() BETWEEN rb.from_date AND rb.to_date
+  );
 GO
 
 -- Query 8.3: Find duplicate customer records
