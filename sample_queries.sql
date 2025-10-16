@@ -21,6 +21,7 @@ GO
 
 -- Query 1.1: Complete Business Statistics Summary
 PRINT '1.1 Complete Business Statistics Summary';
+-- STEP 1: create CTEs for better readability
 WITH 
 -- Total and booked room counts
 room_stats AS (
@@ -55,7 +56,7 @@ customer_stats AS (
     SELECT COUNT(DISTINCT nationality) AS nationality_count FROM customer
 )
 
--- STEP 2: Use the CTEs to present summarized business insights
+-- STEP 2: present summarized business insights
 SELECT 
     -- Occupancy rate (as percentage, cast to 2 decimals)
     CAST((SELECT booked_rooms_number FROM room_stats) * 100.0 / 
