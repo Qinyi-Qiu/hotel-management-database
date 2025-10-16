@@ -21,41 +21,70 @@ GO
 
 -- Query 1.1: Complete Business Statistics Summary
 PRINT '1.1 Complete Business Statistics Summary';
+WITH 
+-- Total and booked room counts
+room_stats AS (
+    SELECT 
+        COUNT(*) AS total_rooms_number,
+        SUM(CASE WHEN rs.room_status_name = 'Booked' THEN 1 ELSE 0 END) AS booked_rooms_number
+    FROM room r
+    INNER JOIN room_status rs ON r.room_status_id = rs.room_status_id
+),
+
+-- Payment method usage statistics
+payment_stats AS (
+    SELECT 
+        pm.payment_method_name,
+        COUNT(*) AS method_count
+    FROM [transaction] t
+    INNER JOIN payment_method pm ON t.payment_method_id = pm.payment_method_id
+    GROUP BY pm.payment_method_name
+),
+
+-- Membership level distribution
+membership_stats AS (
+    SELECT 
+        membership_code,
+        COUNT(*) AS count_per_level
+    FROM membership
+    GROUP BY membership_code
+),
+
+-- Customer nationality diversity
+customer_stats AS (
+    SELECT COUNT(DISTINCT nationality) AS nationality_count FROM customer
+)
+
+-- STEP 2: Use the CTEs to present summarized business insights
 SELECT 
-    -- Occupancy Rate
+    -- Occupancy rate (as percentage, cast to 2 decimals)
+    CAST((SELECT booked_rooms_number FROM room_stats) * 100.0 / 
+         (SELECT total_rooms_number FROM room_stats) AS DECIMAL(5,2)) AS 'Occupancy Rate Percent',
+
+    -- Top payment method by transaction count
+    (SELECT TOP 1 payment_method_name 
+     FROM payment_stats 
+     ORDER BY method_count DESC) AS 'Top Payment Method',
+
+    -- Credit card usage percentage
     CAST((
-        SELECT COUNT(*) 
-        FROM room r 
-        INNER JOIN room_status rs ON r.room_status_id = rs.room_status_id 
-        WHERE rs.room_status_name = 'Booked'
-    ) * 100.0 / (SELECT COUNT(*) FROM room) AS DECIMAL(5,2)) AS 'Occupancy_Rate_%',
-    
-    -- Top Payment Method and Percentage
-    (SELECT TOP 1 pm.payment_method_name 
-     FROM [transaction] t 
-     INNER JOIN payment_method pm ON t.payment_method_id = pm.payment_method_id 
-     GROUP BY pm.payment_method_name 
-     ORDER BY COUNT(*) DESC
-    ) AS 'Top_Payment_Method',
-    
-    CAST((
-        SELECT COUNT(*) 
-        FROM [transaction] t 
-        INNER JOIN payment_method pm ON t.payment_method_id = pm.payment_method_id 
-        WHERE pm.payment_method_name = 'Credit Card'
-    ) * 100.0 / (SELECT COUNT(*) FROM [transaction]) AS DECIMAL(5,2)) AS 'Credit_Card_%',
-    
-    -- Membership Distribution
-    CAST((SELECT COUNT(*) FROM membership WHERE membership_code = 'SE') * 100.0 / 
-         (SELECT COUNT(*) FROM membership) AS DECIMAL(5,2)) AS 'Silver_Members_%',
-    CAST((SELECT COUNT(*) FROM membership WHERE membership_code = 'GE') * 100.0 / 
-         (SELECT COUNT(*) FROM membership) AS DECIMAL(5,2)) AS 'Gold_Members_%',
-    CAST((SELECT COUNT(*) FROM membership WHERE membership_code = 'PE') * 100.0 / 
-         (SELECT COUNT(*) FROM membership) AS DECIMAL(5,2)) AS 'Platinum_Members_%',
-    
-    -- International Guests
-    (SELECT COUNT(DISTINCT nationality) FROM customer) AS 'Nationality_Count';
-GO
+        SELECT ISNULL(method_count, 0)
+        FROM payment_stats 
+        WHERE payment_method_name = 'Credit Card'
+    ) * 100.0 / (SELECT SUM(method_count) FROM payment_stats) AS DECIMAL(5,2)) AS 'Credit Card Percent',
+
+    -- Membership distribution (Silver, Gold, Platinum)
+    CAST((SELECT ISNULL(count_per_level, 0) FROM membership_stats WHERE membership_code = 'SE') 
+         * 100.0 / (SELECT SUM(count_per_level) FROM membership_stats) AS DECIMAL(5,2)) AS 'Silver Members Percent',
+
+    CAST((SELECT ISNULL(count_per_level, 0) FROM membership_stats WHERE membership_code = 'GE') 
+         * 100.0 / (SELECT SUM(count_per_level) FROM membership_stats) AS DECIMAL(5,2)) AS 'Gold Members Percent',
+
+    CAST((SELECT ISNULL(count_per_level, 0) FROM membership_stats WHERE membership_code = 'PE') 
+         * 100.0 / (SELECT SUM(count_per_level) FROM membership_stats) AS DECIMAL(5,2)) AS 'Platinum Members Percent',
+
+    -- Total different nationalities of guests
+    (SELECT nationality_count FROM customer_stats) AS 'Nationality Count';
 
 -- =====================================================
 -- 2. ROOM MANAGEMENT & AVAILABILITY QUERIES
