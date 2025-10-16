@@ -61,13 +61,13 @@ GO
 -- Employee Contact table
 CREATE TABLE employee_contact (
     employee_id INT NOT NULL,
-    phone_number VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    address VARCHAR(255) NOT NULL,
+    employee_phone_number VARCHAR(255) NOT NULL,
+    employee_email VARCHAR(255) NOT NULL,
+    employee_address VARCHAR(255) NOT NULL,
     PRIMARY KEY (employee_id),
     FOREIGN KEY (employee_id) REFERENCES employee(employee_id),
-    UNIQUE (phone_number),
-    UNIQUE (email)
+    UNIQUE (employee_phone_number),
+    UNIQUE (employee_email)
 );
 GO
 
@@ -105,13 +105,13 @@ GO
 -- Customer Contact table
 CREATE TABLE customer_contact (
     customer_id INT NOT NULL,
-    phone_number VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    address VARCHAR(255) NOT NULL,
+    customer_phone_number VARCHAR(255) NOT NULL,
+    customer_email VARCHAR(255) NOT NULL,
+    customer_address VARCHAR(255) NOT NULL,
     PRIMARY KEY (customer_id),
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
-    UNIQUE (phone_number),
-    UNIQUE (email)
+    UNIQUE (customer_phone_number),
+    UNIQUE (customer_email)
 );
 GO
 
