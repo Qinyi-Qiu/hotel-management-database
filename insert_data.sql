@@ -212,7 +212,7 @@ INSERT INTO Employee_Contact (employee_id, employee_phone_number, employee_email
 (18, '908282001', 'Emily.Brown@gmail.com', '91556 Romaguera Drive Apt. 444'),
 (19, '998856613', 'Evan.Harris@gmail.com', '544 Schumm Junctions Apt. 302'),
 (20, '951405191', 'Harper.King@gmail.com', '823 Prosacco Mall Suite 662'),
-(21, '944129975', 'Henry.Wallace@gmail.com', '744 Olson Field Suite 032'),
+(21, '944129975', 'Celine.Nienow@gmail.com', '744 Olson Field Suite 032'),
 (22, '903403467', 'Iris.Clark@gmail.com', '1257 Kyle Common Apt. 443'),
 (23, '994244070', 'Jack.Phillips@gmail.com', '5288 Reichert Parkway Suite 499'),
 (24, '980260057', 'James.Smith@gmail.com', '7040 Ankunding Streets Apt. 264'),
